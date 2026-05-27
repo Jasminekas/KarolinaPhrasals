@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCE Keyword Transformation | 100 Exercises</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-pink: #FF1493;
+            --light-pink: #FFB6D9;
+            --pale-pink: #FFF0F6;
+            --dark-pink: #C71585;
+            --white: #FFFFFF;
+            --dark-text: #2D3436;
+            --light-gray: #F5F5F5;
+            --accent-purple: #9D4EDD;
+            --success: #10B981;
+            --error: #EF4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--pale-pink) 0%, #FFF5FA 100%);
+            color: var(--dark-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-pink) 0%, var(--dark-pink) 100%);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(255, 20, 147, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav button {
+            background: var(--white);
+            color: var(--primary-pink);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        nav button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        nav button.active {
+            background: var(--dark-pink);
+            color: var(--white);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Sections */
+        section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.08);
+            border: 1px solid rgba(255, 20, 147, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            color: var(--primary-pink);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Exercise Section */
+        .exercise-item {
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-pink);
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .exercise-number {
+            background: var(--primary-pink);
+            color: var(--white);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .exercise-progress {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .exercise-item p {
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .sentence {
+            font-style: italic;
+            color: var(--dark-text);
+            margin-bottom: 1rem;
+            background: var(--white);
+            padding: 0.8rem;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .keyword {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .keyword-label {
+            font-weight: 700;
+            color: var(--primary-pink);
+            min-width: 100px;
+        }
+
+        .keyword-word {
+            background: var(--pale-pink);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            color: var(--dark-pink);
+            font-size: 1.1rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+        }
+
+        button.check-btn {
+            background: var(--primary-pink);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        button.check-btn:hover {
+            background: var(--dark-pink);
+            transform: translateY(-2px);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            display: block;
+            border: 2px solid var(--success);
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--error);
+            display: block;
+            border: 2px solid var(--error);
+        }
+
+        .hint-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Navigation Buttons */
+        .exercise-nav {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .exercise-nav button {
+            background: var(--primary-pink);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-nav button:hover {
+            background: var(--dark-pink);
+            transform: translateY(-2px);
+        }
+
+        .exercise-nav button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .stats {
+            background: linear-gradient(135deg, var(--pale-pink) 0%, #F0E6FF 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .stats h4 {
+            color: var(--primary-pink);
+            margin-bottom: 0.5rem;
+        }
+
+        .stats p {
+            font-size: 1.3rem;
+            color: var(--accent-purple);
+            font-weight: 700;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.05) 0%, rgba(255, 20, 147, 0.05) 100%);
+            border-left: 4px solid var(--accent-purple);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .info-box h4 {
+            color: var(--accent-purple);
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .info-box p {
+            margin-bottom: 0.8rem;
+            line-height: 1.7;
+        }
+
+        .info-box ul {
+            margin-left: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .info-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            background: rgba(255, 20, 147, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 600;
+            color: var(--dark-pink);
+        }
+
+        /* Phrasal Verbs Section */
+        .phrasal-verb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .verb-card {
+            background: linear-gradient(135deg, var(--pale-pink) 0%, #FFF5FA 100%);
+            border: 2px solid var(--light-pink);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .verb-card:hover {
+            border-color: var(--primary-pink);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .verb-card strong {
+            color: var(--primary-pink);
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .verb-card em {
+            color: var(--accent-purple);
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Structures List */
+        .structures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .structure-card {
+            background: linear-gradient(135deg, var(--pale-pink) 0%, #F0E6FF 100%);
+            border: 2px solid var(--light-pink);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .structure-card:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 6px 20px rgba(157, 78, 221, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .structure-card h4 {
+            color: var(--accent-purple);
+            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+        }
+
+        .structure-card p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.8rem;
+        }
+
+        .example {
+            background: var(--white);
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--dark-text);
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+            border-top: 1px solid rgba(255, 20, 147, 0.1);
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav {
+                gap: 0.5rem;
+            }
+
+            nav button {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .phrasal-verb-grid,
+            .structures-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .exercise-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>✨ FCE Keyword Transformation</h1>
+        <p>Master 100 Exercises with Phrasal Verbs & Word Formation for B2 First Certificate</p>
+        <nav>
+            <button class="nav-btn active" data-section="exercises">Exercises (100)</button>
+            <button class="nav-btn" data-section="phrasal-verbs">Phrasal Verbs</button>
+            <button class="nav-btn" data-section="structures">Exam Structures</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- EXERCISES SECTION -->
+        <section id="exercises" class="active">
+            <div class="stats">
+                <h4>Your Progress</h4>
+                <p id="score">0 / 100 exercises completed</p>
+            </div>
+
+            <div class="info-box">
+                <h4>📝 How FCE Keyword Transformation Works</h4>
+                <p>Complete the second sentence so that it has a similar meaning to the first sentence, using the word given. <span class="highlight">Do not change the word given</span>. You must use between two and five words, including the word given.</p>
+                <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(157, 78, 221, 0.2); font-size: 0.95rem;"><strong>Important:</strong> "Do not change the word" means you <strong>cannot replace it with a different word</strong>. However, you <strong>must change its form</strong> (tense, person, number) to fit the sentence. For example:</p>
+                <ul style="margin-top: 0.5rem;">
+                    <li>Keyword: <span class="highlight">GIVE</span> → Answer: <strong>gave up</strong> (changed tense from present to past)</li>
+                    <li>Keyword: <span class="highlight">BELIEVE</span> → Answer: <strong>is believed to be</strong> (changed form to passive)</li>
+                    <li>Keyword: <span class="highlight">IMPORTANT</span> → Answer: <strong>is important to</strong> (changed structure, same word)</li>
+                </ul>
+            </div>
+
+            <div id="exercise-container"></div>
+
+            <div class="exercise-nav">
+                <button onclick="previousExercise()" id="prevBtn">← Previous</button>
+                <button onclick="nextExercise()" id="nextBtn">Next →</button>
+                <button onclick="randomExercise()">Random</button>
+            </div>
+        </section>
+
+        <!-- PHRASAL VERBS SECTION -->
+        <section id="phrasal-verbs">
+            <div class="info-box">
+                <h4>🔗 Essential Phrasal Verbs for FCE</h4>
+                <p>These phrasal verbs appear frequently in Cambridge English exams and are crucial for B2 level proficiency.</p>
+            </div>
+
+            <div class="card">
+                <h3>Category 1: Negative/Difficult Situations</h3>
+                <div class="phrasal-verb-grid">
+                    <div class="verb-card">
+                        <strong>GIVE UP</strong>
+                        <p>Stop doing something/surrender</p>
+                        <em>"She gave up smoking last year."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>PUT UP WITH</strong>
+                        <p>Tolerate/endure something unpleasant</p>
+                        <em>"I won't put up with his rudeness."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>PUT OFF</strong>
+                        <p>Postpone/delay</p>
+                        <em>"Don't put off studying for the exam."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>BREAK DOWN</strong>
+                        <p>Stop working/fail/have an emotional crisis</p>
+                        <em>"The car broke down on the way."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>FALL APART</strong>
+                        <p>Disintegrate/deteriorate</p>
+                        <em>"His business is falling apart."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>BRING DOWN</strong>
+                        <p>Reduce/make someone sad</p>
+                        <em>"The bad news brought down his spirits."</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Category 2: Discovery/Investigation</h3>
+                <div class="phrasal-verb-grid">
+                    <div class="verb-card">
+                        <strong>FIND OUT</strong>
+                        <p>Discover/learn something</p>
+                        <em>"I found out the truth yesterday."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>LOOK INTO</strong>
+                        <p>Investigate/examine closely</p>
+                        <em>"The police are looking into the crime."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>WORK OUT</strong>
+                        <p>Calculate/understand/develop</p>
+                        <em>"Can you work out the answer?"</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>FIGURE OUT</strong>
+                        <p>Understand/solve</p>
+                        <em>"It took time to figure out the problem."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>COME ACROSS</strong>
+                        <p>Find by chance/encounter</p>
+                        <em>"I came across an old letter."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>DIG OUT</strong>
+                        <p>Search for and find</p>
+                        <em>"She dug out the old photos."</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Category 3: Positive Action/Progress</h3>
+                <div class="phrasal-verb-grid">
+                    <div class="verb-card">
+                        <strong>TAKE UP</strong>
+                        <p>Start a hobby/occupy time or space</p>
+                        <em>"He took up painting after retirement."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>CARRY ON</strong>
+                        <p>Continue/persevere</p>
+                        <em>"Please carry on with your work."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>MOVE FORWARD</strong>
+                        <p>Progress/advance</p>
+                        <em>"Let's move forward with the project."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>GET AHEAD</strong>
+                        <p>Make progress/succeed</p>
+                        <em>"She got ahead through hard work."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>BUILD UP</strong>
+                        <p>Increase gradually/strengthen</p>
+                        <em>"He built up his confidence slowly."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>BRING ABOUT</strong>
+                        <p>Cause to happen</p>
+                        <em>"Technology brought about major changes."</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Category 4: Relationships & Communication</h3>
+                <div class="phrasal-verb-grid">
+                    <div class="verb-card">
+                        <strong>GET ON WITH</strong>
+                        <p>Have a good relationship with</p>
+                        <em>"She gets on well with her colleagues."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>FALL OUT WITH</strong>
+                        <p>Have a disagreement/end friendship</p>
+                        <em>"They fell out over money."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>CATCH UP WITH</strong>
+                        <p>Meet/reach someone ahead</p>
+                        <em>"Wait for me, I'll catch up with you."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>MAKE UP</strong>
+                        <p>Reconcile/compensate</p>
+                        <em>"They made up after their argument."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>BRING UP</strong>
+                        <p>Raise/mention a topic</p>
+                        <em>"He brought up an interesting point."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>SPEAK UP</strong>
+                        <p>Express opinion/voice concern</p>
+                        <em>"She spoke up for the victims."</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Category 5: Physical Actions & States</h3>
+                <div class="phrasal-verb-grid">
+                    <div class="verb-card">
+                        <strong>TURN UP</strong>
+                        <p>Appear/arrive</p>
+                        <em>"He turned up late again."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>TURN DOWN</strong>
+                        <p>Reject/reduce volume</p>
+                        <em>"She turned down the job offer."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>PICK UP</strong>
+                        <p>Collect/lift/learn quickly</p>
+                        <em>"Can you pick me up at 5?"</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>PULL OFF</strong>
+                        <p>Succeed in doing something difficult</p>
+                        <em>"He managed to pull off the deal."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>CUT DOWN</strong>
+                        <p>Reduce/limit</p>
+                        <em>"I'm trying to cut down on sugar."</em>
+                    </div>
+                    <div class="verb-card">
+                        <strong>SET UP</strong>
+                        <p>Establish/arrange</p>
+                        <em>"She set up her own business."</em>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STRUCTURES SECTION -->
+        <section id="structures">
+            <div class="info-box">
+                <h4>🏗️ Most Common FCE Word Formation Structures</h4>
+                <p>These are the grammatical structures that appear most frequently in Part 4 (Key Word Transformation) of the FCE exam.</p>
+            </div>
+
+            <div class="card">
+                <h3>Passive Voice Transformations</h3>
+                <div class="structures-grid">
+                    <div class="structure-card">
+                        <h4>Active → Passive (Simple)</h4>
+                        <p><strong>Pattern:</strong> Active sentence requires passive transformation</p>
+                        <div class="example">
+                            ❌ Active: They make computers here.<br>
+                            ✅ Passive: Computers are made here.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Passive: Be + Past Participle</h4>
+                        <p><strong>Pattern:</strong> Transform to different tense passive</p>
+                        <div class="example">
+                            ❌ They will announce the results.<br>
+                            ✅ The results will be announced.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Passive with "Get"</h4>
+                        <p><strong>Pattern:</strong> Replace "be" with "get"</p>
+                        <div class="example">
+                            ❌ She was caught in the rain.<br>
+                            ✅ She got caught in the rain.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Modal & Semi-Modal Transformations</h3>
+                <div class="structures-grid">
+                    <div class="structure-card">
+                        <h4>Ability: Can → Be Able To</h4>
+                        <p><strong>Pattern:</strong> Express ability differently</p>
+                        <div class="example">
+                            ❌ He can't swim.<br>
+                            ✅ He is not able to swim.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Obligation: Must → Have To</h4>
+                        <p><strong>Pattern:</strong> Express obligation differently</p>
+                        <div class="example">
+                            ❌ You must finish your homework.<br>
+                            ✅ You have to finish your homework.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Possibility: May/Might</h4>
+                        <p><strong>Pattern:</strong> Express possibility differently</p>
+                        <div class="example">
+                            ❌ Perhaps he will come.<br>
+                            ✅ He might come.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Conditional Structures</h3>
+                <div class="structures-grid">
+                    <div class="structure-card">
+                        <h4>First Conditional</h4>
+                        <p><strong>Pattern:</strong> If + present, will (real future)</p>
+                        <div class="example">
+                            ❌ If you're late, we'll start without you.<br>
+                            ✅ If you're late, we'll start without you.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Second Conditional</h4>
+                        <p><strong>Pattern:</strong> If + past, would (imaginary)</p>
+                        <div class="example">
+                            ❌ If he called, what would you say?<br>
+                            ✅ If he called, what would you say?
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Third Conditional</h4>
+                        <p><strong>Pattern:</strong> If + past perfect, would have (regret)</p>
+                        <div class="example">
+                            ❌ I didn't know, so I didn't call.<br>
+                            ✅ If I had known, I would have called.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Comparative & Superlative Structures</h3>
+                <div class="structures-grid">
+                    <div class="structure-card">
+                        <h4>Comparative: More/Less</h4>
+                        <p><strong>Pattern:</strong> Compare two things</p>
+                        <div class="example">
+                            ❌ He is smarter than his brother.<br>
+                            ✅ He is more intelligent than his brother.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>The More...The More</h4>
+                        <p><strong>Pattern:</strong> Cause and effect</p>
+                        <div class="example">
+                            ❌ As you study more, you improve.<br>
+                            ✅ The more you study, the more you improve.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Superlative Form</h4>
+                        <p><strong>Pattern:</strong> Highest degree</p>
+                        <div class="example">
+                            ❌ No student is as intelligent as Maria.<br>
+                            ✅ Maria is the most intelligent student.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Infinitive & Gerund Structures</h3>
+                <div class="structures-grid">
+                    <div class="structure-card">
+                        <h4>To-Infinitive</h4>
+                        <p><strong>Pattern:</strong> After certain verbs/adjectives</p>
+                        <div class="example">
+                            ❌ She wants swimming.<br>
+                            ✅ She wants to swim.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Managed/Succeeded To Do</h4>
+                        <p><strong>Pattern:</strong> Past achievement</p>
+                        <div class="example">
+                            ❌ He could finish on time.<br>
+                            ✅ He managed to finish on time.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Subject + Infinitive</h4>
+                        <p><strong>Pattern:</strong> Infinitive as subject</p>
+                        <div class="example">
+                            ❌ That you arrive early is important.<br>
+                            ✅ It is important to arrive early.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Relative Clauses & Cleft Sentences</h3>
+                <div class="structures-grid">
+                    <div class="structure-card">
+                        <h4>Relative Pronouns (Who/Which)</h4>
+                        <p><strong>Pattern:</strong> Additional information</p>
+                        <div class="example">
+                            ❌ The girl was clever. She won.<br>
+                            ✅ The girl who won was clever.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Cleft Sentences (What/It)</h4>
+                        <p><strong>Pattern:</strong> Emphasis</p>
+                        <div class="example">
+                            ❌ His honesty surprised me most.<br>
+                            ✅ What surprised me was his honesty.
+                        </div>
+                    </div>
+                    <div class="structure-card">
+                        <h4>Relative Adverbs (Where/When)</h4>
+                        <p><strong>Pattern:</strong> Time/place/reason</p>
+                        <div class="example">
+                            ❌ I saw her there.<br>
+                            ✅ That's the place where I saw her.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>💡 FCE Keyword Transformation Practice | Cambridge English B2 First Certificate Exam Preparation</p>
+        <p style="font-size: 0.9rem; margin-top: 1rem;">Master these structures and phrasal verbs to excel in Part 4 of your exam!</p>
+    </footer>
+
+    <script>
+        // All 100 exercises with EXACT answer requirements
+        // KEYWORDS ARE IN BASE FORM - answers show inflected forms
+        const exercises = [
+            // 1-10: Phrasal Verbs - Basic
+            { sent1: "She abandoned her studies when she got the job offer.", sent2: "She __________ her studies when she got the job offer.", keyword: "GIVE", answers: ["gave up"], hint: "Stop doing something (past tense)" },
+            { sent1: "The meeting was postponed because of the bad weather.", sent2: "The meeting __________ because of the bad weather.", keyword: "PUT", answers: ["was put off"], hint: "Passive voice, past tense" },
+            { sent1: "I cannot tolerate his arrogant behaviour anymore.", sent2: "I cannot __________ his arrogant behaviour anymore.", keyword: "PUT", answers: ["put up with"], hint: "Endure/tolerate (present)" },
+            { sent1: "She discovered that her daughter had been lying to her.", sent2: "She __________ her daughter had been lying to her.", keyword: "FIND", answers: ["found out"], hint: "Past tense discovery" },
+            { sent1: "The project required a lot of preparation and hard work.", sent2: "The project __________ a lot of preparation and hard work.", keyword: "TAKE", answers: ["took up"], hint: "Consumed time (past)" },
+            { sent1: "The bad news made everyone feel depressed.", sent2: "The bad news __________ everyone's mood.", keyword: "BRING", answers: ["brought down"], hint: "Made sad/reduced (past)" },
+            { sent1: "The negotiations have failed.", sent2: "The negotiations have __________.", keyword: "FALL", answers: ["fallen apart"], hint: "Deteriorate (present perfect)" },
+            { sent1: "We need to continue despite the difficulties.", sent2: "We need to __________ despite the difficulties.", keyword: "CARRY", answers: ["carry on"], hint: "Continue (infinitive)" },
+            { sent1: "He was able to achieve success through hard work.", sent2: "He __________ through hard work.", keyword: "GET", answers: ["got ahead"], hint: "Make progress (past)" },
+            { sent1: "The company started a new business venture.", sent2: "The company __________ a new business venture.", keyword: "SET", answers: ["set up"], hint: "Establish (past)" },
+
+            // 11-20: Passive Voice
+            { sent1: "They make these cars in Germany.", sent2: "These cars __________ in Germany.", keyword: "MAKE", answers: ["are made"], hint: "Simple present passive" },
+            { sent1: "Someone will announce the winner tomorrow.", sent2: "The winner __________ tomorrow.", keyword: "ANNOUNCE", answers: ["will be announced"], hint: "Future passive" },
+            { sent1: "The police have arrested the suspect.", sent2: "The suspect __________.", keyword: "ARREST", answers: ["has been arrested"], hint: "Present perfect passive" },
+            { sent1: "They were building a new hospital.", sent2: "A new hospital __________ when I arrived.", keyword: "BUILD", answers: ["was being built"], hint: "Past continuous passive" },
+            { sent1: "People regard him as an expert.", sent2: "He __________ an expert.", keyword: "REGARD", answers: ["is regarded as"], hint: "Opinion passive" },
+            { sent1: "Someone said he was guilty.", sent2: "He __________ guilty.", keyword: "SAY", answers: ["is said to be"], hint: "Reporting passive" },
+            { sent1: "She caught him in the rain.", sent2: "He __________ in the rain.", keyword: "CATCH", answers: ["got caught"], hint: "Get instead of be (past)" },
+            { sent1: "They had painted the house blue.", sent2: "The house __________ blue.", keyword: "PAINT", answers: ["had been painted"], hint: "Past perfect passive" },
+            { sent1: "The company was employing 500 people.", sent2: "500 people __________ by the company.", keyword: "EMPLOY", answers: ["were being employed"], hint: "Past continuous passive" },
+            { sent1: "Everyone believes she is talented.", sent2: "She __________ talented.", keyword: "BELIEVE", answers: ["is believed to be"], hint: "Belief passive" },
+
+            // 21-30: Modals & Semi-modals
+            { sent1: "He is unable to swim.", sent2: "He __________ swim.", keyword: "ABLE", answers: ["is not able to"], hint: "Ability negative" },
+            { sent1: "You must finish your homework.", sent2: "You __________ finish your homework.", keyword: "HAVE", answers: ["have to"], hint: "Obligation alternative" },
+            { sent1: "Perhaps he will come to the party.", sent2: "He __________ come to the party.", keyword: "MIGHT", answers: ["might"], hint: "Possibility modal" },
+            { sent1: "It was possible that she knew the answer.", sent2: "She __________ known the answer.", keyword: "COULD", answers: ["could have"], hint: "Past possibility" },
+            { sent1: "You don't have to come if you don't want.", sent2: "You __________ come if you don't want.", keyword: "NEED", answers: ["don't need to"], hint: "Lack of obligation" },
+            { sent1: "Despite his efforts, he couldn't finish.", sent2: "He __________ finish despite his efforts.", keyword: "UNABLE", answers: ["was unable to"], hint: "Inability in past" },
+            { sent1: "It's possible she misunderstood you.", sent2: "She __________ misunderstood you.", keyword: "MAY", answers: ["may have"], hint: "Past possibility modal" },
+            { sent1: "He was obliged to tell the truth.", sent2: "He __________ tell the truth.", keyword: "HAVE", answers: ["had to"], hint: "Past obligation" },
+            { sent1: "She is allowed to leave early.", sent2: "She __________ leave early.", keyword: "CAN", answers: ["can"], hint: "Permission" },
+            { sent1: "It's forbidden to smoke here.", sent2: "You __________ smoke here.", keyword: "MUST", answers: ["must not"], hint: "Prohibition" },
+
+            // 31-40: Conditionals
+            { sent1: "If you study hard, you will pass.", sent2: "Study hard and you __________.", keyword: "PASS", answers: ["will pass"], hint: "First conditional result" },
+            { sent1: "I didn't know, so I didn't call.", sent2: "If I __________, I would have called.", keyword: "KNOW", answers: ["had known"], hint: "Third conditional" },
+            { sent1: "Suppose it rains, what will we do?", sent2: "If it __________, what will we do?", keyword: "RAIN", answers: ["rains"], hint: "If replaces suppose" },
+            { sent1: "He would be happy if he were rich.", sent2: "If he __________, he would be happy.", keyword: "BE", answers: ["were rich"], hint: "Second conditional" },
+            { sent1: "Without your help, I couldn't have succeeded.", sent2: "If you __________ helped me, I couldn't have succeeded.", keyword: "HAVE", answers: ["hadn't"], hint: "Third conditional without" },
+            { sent1: "She will probably not come.", sent2: "It's unlikely that she __________.", keyword: "COME", answers: ["will come"], hint: "Unlikely with first conditional" },
+            { sent1: "If water boils, it turns to steam.", sent2: "Water __________ when boiled.", keyword: "TURN", answers: ["turns"], hint: "Zero conditional fact" },
+            { sent1: "You won't get the job unless you apply.", sent2: "If you __________ apply, you won't get the job.", keyword: "APPLY", answers: ["don't"], hint: "Unless means if not" },
+            { sent1: "Assuming we have enough money, we'll buy it.", sent2: "If we __________ enough money, we'll buy it.", keyword: "HAVE", answers: ["have"], hint: "Assuming converts to if" },
+            { sent1: "In case of emergency, call 999.", sent2: "If __________ an emergency, call 999.", keyword: "BE", answers: ["there is"], hint: "In case of converts" },
+
+            // 41-50: Infinitive & Gerund
+            { sent1: "She wants to become a doctor.", sent2: "It's her ambition __________ a doctor.", keyword: "BECOME", answers: ["to become"], hint: "Ambition + to-infinitive" },
+            { sent1: "We avoid eating junk food.", sent2: "We avoid __________ junk food.", keyword: "EAT", answers: ["eating"], hint: "Avoid + gerund" },
+            { sent1: "He managed to pass the exam.", sent2: "He __________ passing the exam.", keyword: "SUCCEED", answers: ["succeeded in"], hint: "Succeed in + gerund" },
+            { sent1: "I regret telling him the truth.", sent2: "I regret __________ him the truth.", keyword: "TELL", answers: ["telling"], hint: "Regret + gerund" },
+            { sent1: "Please remember to lock the door.", sent2: "Please don't forget __________ the door.", keyword: "LOCK", answers: ["to lock"], hint: "Forget + to-infinitive" },
+            { sent1: "It's important that you arrive on time.", sent2: "It's important __________ on time.", keyword: "ARRIVE", answers: ["to arrive"], hint: "Important + to-infinitive" },
+            { sent1: "I suggest that we leave now.", sent2: "I suggest __________ now.", keyword: "LEAVE", answers: ["leaving"], hint: "Suggest + gerund" },
+            { sent1: "She enjoys reading books.", sent2: "She enjoys __________ books.", keyword: "READ", answers: ["reading"], hint: "Enjoy + gerund" },
+            { sent1: "They postponed making a decision.", sent2: "They postponed __________ a decision.", keyword: "MAKE", answers: ["making"], hint: "Postpone + gerund" },
+            { sent1: "He finished writing the report.", sent2: "He completed __________ the report.", keyword: "WRITE", answers: ["writing"], hint: "Completed + gerund" },
+
+            // 51-60: Comparatives & Superlatives
+            { sent1: "She is smarter than her brother.", sent2: "Her brother is __________ she is.", keyword: "INTELLIGENT", answers: ["less intelligent than"], hint: "Reverse comparison" },
+            { sent1: "This is the longest book I've ever read.", sent2: "I've never read a __________ book.", keyword: "LONG", answers: ["longer"], hint: "Superlative to comparative" },
+            { sent1: "The more you practice, the better you get.", sent2: "Practice more and you'll get __________.", keyword: "GOOD", answers: ["better"], hint: "Cause and effect result" },
+            { sent1: "It's the most expensive restaurant in town.", sent2: "No restaurant in town is __________ this.", keyword: "EXPENSIVE", answers: ["more expensive than"], hint: "Superlative reversal" },
+            { sent1: "This coffee is not as hot as that one.", sent2: "That coffee is __________ this one.", keyword: "HOT", answers: ["hotter than"], hint: "Comparative form" },
+            { sent1: "She is far more experienced than him.", sent2: "He is far __________ she is.", keyword: "EXPERIENCED", answers: ["less experienced than"], hint: "Opposite comparison" },
+            { sent1: "The smallest child couldn't reach.", sent2: "The other children were __________ reach.", keyword: "ABLE", answers: ["able to"], hint: "Superlative reversal" },
+            { sent1: "He earns twice as much as she does.", sent2: "She earns __________ he does.", keyword: "HALF", answers: ["half what"], hint: "Reverse proportion" },
+            { sent1: "The bigger the problem, the greater the challenge.", sent2: "Bigger problems create __________ challenges.", keyword: "GREAT", answers: ["greater"], hint: "Cause-effect result" },
+            { sent1: "This is the best option available.", sent2: "No other option is __________ this.", keyword: "GOOD", answers: ["as good as"], hint: "Superlative to comparative" },
+
+            // 61-70: Reporting & Cleft Sentences
+            { sent1: "She said, 'I will help you.'", sent2: "She said that she __________ help me.", keyword: "WOULD", answers: ["would"], hint: "Reported speech backshift" },
+            { sent1: "He told me, 'Don't leave.'", sent2: "He told me not __________ leave.", keyword: "LEAVE", answers: ["to"], hint: "Reported negative request" },
+            { sent1: "His honesty surprised me most.", sent2: "What __________ me most was his honesty.", keyword: "SURPRISE", answers: ["surprised"], hint: "What cleft sentence" },
+            { sent1: "The only thing that matters is your happiness.", sent2: "What __________ is your happiness.", keyword: "MATTER", answers: ["matters"], hint: "Cleft simplification" },
+            { sent1: "I didn't realize how difficult it was.", sent2: "What I didn't realize was how __________ it was.", keyword: "DIFFICULT", answers: ["difficult"], hint: "Cleft emphasis word" },
+            { sent1: "She mentioned that she was tired.", sent2: "She __________ that she was tired.", keyword: "SAY", answers: ["said"], hint: "Report verb change" },
+            { sent1: "The reason for his absence was illness.", sent2: "He was absent __________ he was ill.", keyword: "BECAUSE", answers: ["because"], hint: "Reason connector" },
+            { sent1: "They asked me to help them.", sent2: "They __________ me to help them.", keyword: "ASK", answers: ["asked"], hint: "Request verb unchanged" },
+            { sent1: "She warned us not to go there.", sent2: "She said we __________ go there.", keyword: "SHOULD", answers: ["shouldn't"], hint: "Warning in reported form" },
+            { sent1: "All the students passed the exam.", sent2: "What was remarkable was that all __________ passed.", keyword: "STUDENT", answers: ["students"], hint: "Cleft with subject" },
+
+            // 71-80: Negation & Opposition
+            { sent1: "She is not happy.", sent2: "She is __________ unhappy.", keyword: "RATHER", answers: ["rather"], hint: "Double negative emphatic" },
+            { sent1: "He likes neither tea nor coffee.", sent2: "He doesn't like __________ tea nor coffee.", keyword: "EITHER", answers: ["either"], hint: "Neither to either conversion" },
+            { sent1: "If you don't hurry, you'll be late.", sent2: "__________ you hurry, you'll be late.", keyword: "UNLESS", answers: ["Unless"], hint: "Unless = if not" },
+            { sent1: "You can't leave unless I permit you.", sent2: "You can only leave if I __________.", keyword: "PERMIT", answers: ["permit"], hint: "Permission condition" },
+            { sent1: "I prefer staying home to going out.", sent2: "I'd rather __________ home than go out.", keyword: "STAY", answers: ["stay"], hint: "Prefer to would rather" },
+            { sent1: "Everyone attended except Maria.", sent2: "Everyone attended __________ Maria.", keyword: "EXCEPT", answers: ["except"], hint: "Except unchanged" },
+            { sent1: "He is reluctant to help.", sent2: "He __________ to help.", keyword: "UNWILLING", answers: ["is unwilling"], hint: "Reluctant synonym" },
+            { sent1: "It's unlikely that she will come.", sent2: "She is __________ likely to come.", keyword: "UNLIKELY", answers: ["unlikely"], hint: "Unlikely conversion" },
+            { sent1: "Nobody came to the party.", sent2: "Not a single person __________ to the party.", keyword: "COME", answers: ["came"], hint: "Nobody emphasis" },
+            { sent1: "The room was full of people.", sent2: "The room was __________ of people.", keyword: "PACKED", answers: ["packed"], hint: "Full to packed synonym" },
+
+            // 81-90: Mixed Structures
+            { sent1: "Despite his age, he was strong.", sent2: "Although he was old, he was __________.", keyword: "STRONG", answers: ["strong"], hint: "Despite to although" },
+            { sent1: "The sooner we start, the faster we'll finish.", sent2: "If we start sooner, we'll finish __________.", keyword: "FAST", answers: ["faster"], hint: "Cause and effect result" },
+            { sent1: "She graduated in 2020.", sent2: "It was in 2020 __________ she graduated.", keyword: "THAT", answers: ["that"], hint: "Time cleft sentence" },
+            { sent1: "The film was so exciting that everyone enjoyed it.", sent2: "It was such __________ film that everyone enjoyed it.", keyword: "EXCITING", answers: ["an exciting"], hint: "So to such" },
+            { sent1: "Only after graduating did she find a job.", sent2: "She didn't find a job __________ after graduating.", keyword: "UNTIL", answers: ["until"], hint: "Inversion to until" },
+            { sent1: "The accident happened at midnight.", sent2: "It was at midnight __________ the accident happened.", keyword: "THAT", answers: ["that"], hint: "Time cleft with that" },
+            { sent1: "She worked hard; consequently, she succeeded.", sent2: "She succeeded __________ working hard.", keyword: "BY", answers: ["by"], hint: "Consequence to means" },
+            { sent1: "No sooner did he arrive than he left.", sent2: "He had __________ arrived than he left.", keyword: "SCARCELY", answers: ["scarcely"], hint: "No sooner alternative" },
+            { sent1: "She was such a brilliant student.", sent2: "She was __________ a brilliant student.", keyword: "SO", answers: ["so"], hint: "Such to so" },
+            { sent1: "In spite of the rain, we continued.", sent2: "Although it __________, we continued.", keyword: "RAIN", answers: ["rained"], hint: "In spite to although" },
+
+            // 91-100: Advanced Combinations
+            { sent1: "It's possible she didn't understand.", sent2: "She __________ not have understood.", keyword: "MAY", answers: ["may"], hint: "Possibility in past" },
+            { sent1: "The dress was so expensive that I couldn't buy it.", sent2: "The dress was too __________ for me to buy.", keyword: "EXPENSIVE", answers: ["expensive"], hint: "So to too" },
+            { sent1: "If I were you, I would apologize.", sent2: "In your __________, I would apologize.", keyword: "POSITION", answers: ["position"], hint: "Second conditional rephrasing" },
+            { sent1: "She's the best teacher we've ever had.", sent2: "We've __________ had such a good teacher.", keyword: "NEVER", answers: ["never"], hint: "Superlative to never comparative" },
+            { sent1: "It's worth considering the offer.", sent2: "The offer is __________ considering.", keyword: "WORTH", answers: ["worth"], hint: "Worth + gerund" },
+            { sent1: "He succeeded in passing the exam.", sent2: "He __________ to pass the exam.", keyword: "MANAGE", answers: ["managed"], hint: "Succeed in to managed" },
+            { sent1: "The building was demolished last year.", sent2: "They __________ the building last year.", keyword: "DEMOLISH", answers: ["demolished"], hint: "Passive to active" },
+            { sent1: "She has been working here for 10 years.", sent2: "She started working here 10 __________ ago.", keyword: "YEAR", answers: ["years"], hint: "Present perfect to simple past" },
+            { sent1: "Everyone knows he is a liar.", sent2: "He is __________ to be a liar.", keyword: "KNOW", answers: ["known"], hint: "Opinion passive structure" },
+            { sent1: "They would solve it if they could.", sent2: "If __________, they would solve it.", keyword: "THEY", answers: ["they could"], hint: "Second conditional ending" }
+        ];
+
+        let currentIndex = 0;
+
+        function displayExercise(index) {
+            if (index < 0) index = 0;
+            if (index >= exercises.length) index = exercises.length - 1;
+            currentIndex = index;
+
+            const exercise = exercises[index];
+            const container = document.getElementById('exercise-container');
+            
+            container.innerHTML = `
+                <div class="card">
+                    <div class="exercise-item">
+                        <div class="exercise-header">
+                            <div class="exercise-number">${index + 1}</div>
+                            <div class="exercise-progress">Question ${index + 1} of ${exercises.length}</div>
+                        </div>
+
+                        <p><strong>Original sentence:</strong></p>
+                        <div class="sentence">${exercise.sent1}</div>
+
+                        <p><strong>Complete the sentence:</strong></p>
+                        <div class="sentence">${exercise.sent2}</div>
+
+                        <div class="keyword">
+                            <span class="keyword-label">Keyword:</span>
+                            <span class="keyword-word">${exercise.keyword}</span>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="text" id="exercise-answer" placeholder="Your answer..." autocomplete="off">
+                            <button class="check-btn" onclick="checkCurrentAnswer()">Check</button>
+                        </div>
+                        <div class="hint-text">💡 Hint: ${exercise.hint}</div>
+
+                        <div class="feedback" id="exercise-feedback"></div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === exercises.length - 1;
+
+            setTimeout(() => document.getElementById('exercise-answer').focus(), 100);
+        }
+
+        function checkCurrentAnswer() {
+            const exercise = exercises[currentIndex];
+            const input = document.getElementById('exercise-answer');
+            const feedback = document.getElementById('exercise-feedback');
+            const userAnswer = input.value.trim();
+
+            const normalizeAnswer = (text) => {
+                return text.toLowerCase().trim().replace(/\s+/g, ' ');
+            };
+
+            const normalizedUserAnswer = normalizeAnswer(userAnswer);
+            const isCorrect = exercise.answers.some(answer => normalizeAnswer(answer) === normalizedUserAnswer);
+
+            feedback.classList.remove('correct', 'incorrect');
+
+            if (userAnswer === '') {
+                feedback.textContent = '⚠️ Please enter an answer first.';
+                feedback.classList.add('incorrect');
+                feedback.style.display = 'block';
+            } else if (isCorrect) {
+                feedback.innerHTML = `✅ <strong>Excellent!</strong> That's correct. Answer: "${exercise.answers[0]}"`;
+                feedback.classList.add('correct');
+                feedback.style.display = 'block';
+                input.style.borderColor = 'var(--success)';
+            } else {
+                feedback.innerHTML = `❌ <strong>Not quite right.</strong> The correct answer is: <strong>"${exercise.answers[0]}"</strong>`;
+                feedback.classList.add('incorrect');
+                feedback.style.display = 'block';
+                input.style.borderColor = 'var(--error)';
+            }
+        }
+
+        function nextExercise() {
+            displayExercise(currentIndex + 1);
+        }
+
+        function previousExercise() {
+            displayExercise(currentIndex - 1);
+        }
+
+        function randomExercise() {
+            const randomIndex = Math.floor(Math.random() * exercises.length);
+            displayExercise(randomIndex);
+        }
+
+        // Navigation
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+                
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Enter key to check
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && document.getElementById('exercises').classList.contains('active')) {
+                const input = document.getElementById('exercise-answer');
+                if (input && document.activeElement === input) {
+                    checkCurrentAnswer();
+                }
+            }
+        });
+
+        // Initialize
+        displayExercise(0);
+    </script>
+</body>
+</html>
